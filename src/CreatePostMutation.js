@@ -1,13 +1,12 @@
-//1
+
+// 1
 import {
   commitMutation,
   graphql,
 } from 'react-relay'
 import { ConnectionHandler } from 'relay-runtime'
 import environment from './Environment'
-//2
-let tempID = 0
-
+// 2
 const mutation = graphql`
   mutation CreatePostMutation($input: CreatePostInput!) {
     createPost(input: $input) {
@@ -17,11 +16,13 @@ const mutation = graphql`
         imageUrl
       }
     }
-  }  
+  }
 `
-//3
+
+let tempID = 0
+// 3
 export default (description, imageUrl, viewerId, callback) => {
-  //4
+  // 4
   const variables = {
     input: {
       description,
@@ -29,21 +30,21 @@ export default (description, imageUrl, viewerId, callback) => {
       clientMutationId: ""
     },
   }
-  //5
+  // 5
   commitMutation(
     environment,
     {
       mutation,
       variables,
-      //6
+      // 6
       optimisticUpdater: (proxyStore) => {
-        //1
+        // 1 - create the `newPost` as a mock that can be added to the store
         const id = 'client:newPost:' + tempID++
         const newPost = proxyStore.create(id, 'Post')
         newPost.setValue(id, 'id')
         newPost.setValue(description, 'description')
         newPost.setValue(imageUrl, 'imageUrl')
-        //2
+        // 2 - add `newPost` to the store
         const viewerProxy = proxyStore.get(viewerId)
         const connection = ConnectionHandler.getConnection(viewerProxy, 'ListPage_allPosts')
         if (connection) {
@@ -51,17 +52,17 @@ export default (description, imageUrl, viewerId, callback) => {
         }
       },
       updater: (proxyStore) => {
-        //1
+        // 1 - retrieve the `newPost` from the server response
         const createPostField = proxyStore.getRootField('createPost')
         const newPost = createPostField.getLinkedRecord('post')
-        //2
+        // 2 - add `newPost` to the store
         const viewerProxy = proxyStore.get(viewerId)
         const connection = ConnectionHandler.getConnection(viewerProxy, 'ListPage_allPosts')
         if (connection) {
           ConnectionHandler.insertEdgeAfter(connection, newPost)
         }
       },
-      //7
+      // 7
       onCompleted: () => {
         callback()
       },

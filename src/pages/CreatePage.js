@@ -27,6 +27,7 @@ class CreatePage extends React.Component {
             return <div>{error.message}</div>
           } else if (props) {
             return (
+              // --- previous implementation ----
               <div className='w-100 pa4 flex justify-center'>
                 <div style={{ maxWidth: 400 }} className=''>
                   <input
@@ -42,13 +43,14 @@ class CreatePage extends React.Component {
                     onChange={(e) => this.setState({ imageUrl: e.target.value })}
                   />
                   {this.state.imageUrl &&
-                    <img src={this.state.imageUrl} className='w-100 mv3' alt="pig"/>
+                    <img src={this.state.imageUrl} className='w-100 mv3' alt="test" />
                   }
                   {this.state.description && this.state.imageUrl &&
-                    <button className='pa3 bg-black-10 bn dim ttu pointer' onClick={this._handlePost}>Post</button>
+                    <button className='pa3 bg-black-10 bn dim ttu pointer' onClick={() => this._handlePost(props.viewer.id)}>Post</button>
                   }
                 </div>
               </div>
+              // --- previous implementation ----
             )
           }
           return <div>Loading</div>
@@ -57,10 +59,10 @@ class CreatePage extends React.Component {
     )
   }
 
+
   _handlePost = (viewerId) => {
     const { description, imageUrl } = this.state
     CreatePostMutation(description, imageUrl, viewerId, () => this.props.router.replace('/'))
-    // ... 
   }
 }
 

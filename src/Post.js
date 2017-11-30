@@ -1,8 +1,12 @@
 import React from 'react'
-​
+import {
+  createFragmentContainer,
+  graphql
+} from 'react-relay'
+
 class Post extends React.Component {
-​
-  render () {
+
+  render() {
     return (
       <div className='pa3 bg-black-05 ma3'>
         <div
@@ -20,9 +24,15 @@ class Post extends React.Component {
       </div>
     )
   }
-​
+
   _handleDelete = () => {
   }
 }
-​
-export default Post
+
+export default createFragmentContainer(Post, graphql`
+  fragment Post_post on Post {
+    id
+    description
+    imageUrl
+  }
+`)

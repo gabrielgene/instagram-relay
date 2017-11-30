@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash a6d0f7299a90ffdd591b52c03d86c15d
+ * @relayHash 95f089d4d10e1362f892f61a3849a43f
  */
 
 /* eslint-disable */
@@ -24,6 +24,7 @@ query AppAllPostQuery {
 }
 
 fragment ListPage_viewer on Viewer {
+  ...Post_viewer
   allPosts(last: 100, orderBy: createdAt_DESC) {
     edges {
       node {
@@ -38,6 +39,10 @@ fragment ListPage_viewer on Viewer {
       startCursor
     }
   }
+}
+
+fragment Post_viewer on Viewer {
+  id
 }
 
 fragment Post_post on Post {
@@ -237,7 +242,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query AppAllPostQuery {\n  viewer {\n    ...ListPage_viewer\n    id\n  }\n}\n\nfragment ListPage_viewer on Viewer {\n  allPosts(last: 100, orderBy: createdAt_DESC) {\n    edges {\n      node {\n        __typename\n        ...Post_post\n        id\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment Post_post on Post {\n  id\n  description\n  imageUrl\n}\n"
+  "text": "query AppAllPostQuery {\n  viewer {\n    ...ListPage_viewer\n    id\n  }\n}\n\nfragment ListPage_viewer on Viewer {\n  ...Post_viewer\n  allPosts(last: 100, orderBy: createdAt_DESC) {\n    edges {\n      node {\n        __typename\n        ...Post_post\n        id\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment Post_viewer on Viewer {\n  id\n}\n\nfragment Post_post on Post {\n  id\n  description\n  imageUrl\n}\n"
 };
 
 module.exports = batch;

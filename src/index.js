@@ -1,8 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import App from './pages/App';
+import CreatePage from './pages/CreatePage';
 import registerServiceWorker from './registerServiceWorker';
+import { Router, Route, browserHistory, Redirect } from 'react-router';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <Router history={browserHistory}>
+    <Route path='/' component={App} />
+    <Route path='/create' component={CreatePage} />
+    <Redirect path="**" to="/" />
+  </Router>
+  , document.getElementById('root')
+);
 registerServiceWorker();

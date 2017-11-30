@@ -1,6 +1,6 @@
 import React from 'react'
 
-class CreatePage extends React.Component {
+export default class CreatePage extends React.Component {
   state = {
     description: '',
     imageUrl: '',

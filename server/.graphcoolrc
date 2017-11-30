@@ -1,0 +1,3 @@
+targets:
+  inst: shared-eu-west-1/cjamcig9o0n8x0196dzets78q
+  default: inst

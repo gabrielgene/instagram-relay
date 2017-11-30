@@ -4,7 +4,7 @@ import {
   QueryRenderer,
   graphql
 } from 'react-relay'
-import environment from './Environment'
+import environment from '../Environment'
 
 const appAllPostQuery = graphql`
   query AppAllPostQuery {
